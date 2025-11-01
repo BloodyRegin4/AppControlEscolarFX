@@ -1,0 +1,8 @@
+# Archivos generados por NetBeans/Java
+/build
+/dist
+/nbproject
+*.jar
+
+# Archivo de secretos
+config.properties
