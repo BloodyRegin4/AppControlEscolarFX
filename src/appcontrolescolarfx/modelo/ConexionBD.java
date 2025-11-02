@@ -24,8 +24,7 @@ public class ConexionBD {
 
     public static Connection abrirConexionBD() {
         Properties properties = cargarPropiedades();
-        String URL_CONEXION = properties.getProperty("db.url")
-                + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+        String URL_CONEXION = properties.getProperty("db.url") + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
         String USUARIO = properties.getProperty("db.usuario");
         String PASSWORD = properties.getProperty("db.password");
 

@@ -25,7 +25,6 @@ public class ProfesorImplementacion {
                 profesor.setApellidoPaterno(resultado.getString("apellidoPaterno"));
                 profesor.setApellidoMaterno(resultado.getString("apellidoMaterno"));
                 profesor.setNoPersonal(resultado.getString("noPersonal"));
-                profesor.setPassword(resultado.getString("password"));
                 profesor.setFechaNacimiento(resultado.getString("fechaNacimiento"));
                 profesor.setFechaContratacion(resultado.getString("fechaContratacion"));
                 
@@ -70,21 +69,22 @@ public class ProfesorImplementacion {
         HashMap<String,Object> respuesta = new LinkedHashMap<>();
 
         try {
-            int filasAfectadas = ProfesorDAO.editarProfesor(profesor, ConexionBD.abrirConexionBD();
+            int filasAfectadas = ProfesorDAO.editarProfesor(profesor, ConexionBD.abrirConexionBD());
 
             if(filasAfectadas > 0) {
                 respuesta.put("error", false);
                 respuesta.put("mensaje", "El registro del profesor(a) " + profesor.getNombre() + " fue editada correctamente.");
             } else {
                 respuesta.put("error", true);
-                respuesta.put("mensaje", "Lo sentimos :( no se pudo editar la información del profesfor, por favor intente más tarde.")ñ
+                respuesta.put("mensaje", "Lo sentimos :( no se pudo editar la información del profesfor, por favor intente más tarde.");
             }
 
             ConexionBD.cerrarConexionBD();
         } catch (SQLException ex) {
             respuesta.put("error", true);
-            respuesta.put("mensaje", e.getMessage());
+            respuesta.put("mensaje", ex.getMessage());
         }
 
         return respuesta;
+    }
 }

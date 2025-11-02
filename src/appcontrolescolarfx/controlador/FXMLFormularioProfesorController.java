@@ -6,6 +6,7 @@ import appcontrolescolarfx.interfaces.IObservador;
 import appcontrolescolarfx.modelo.pojo.Profesor;
 import appcontrolescolarfx.modelo.pojo.Rol;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -62,9 +63,9 @@ public class FXMLFormularioProfesorController implements Initializable {
             tfPassword.setText(profesor.getPassword());
             tfNumPersonal.setText(profesor.getNoPersonal());
             tfNumPersonal.setEditable(false);
-            ftNumPersonal.setDisable(true);
-            dpFechaNacimiento.setValue(LocalDate.parse(profesor.getFechaNacimiento());
-            dpFechaContratacion.setValue(LocalDate.parse(profesor.getFechaContratacion());
+            tfNumPersonal.setDisable(true);
+            dpFechaNacimiento.setValue(LocalDate.parse(profesor.getFechaNacimiento()));
+            dpFechaContratacion.setValue(LocalDate.parse(profesor.getFechaContratacion()));
 
             int posicion = obtenerRolSeleccionado(profesor.getIdRol());
             cbRol.getSelectionModel().select(posicion);
@@ -190,7 +191,7 @@ public class FXMLFormularioProfesorController implements Initializable {
     }
 
     private void editarProfesor() {
-        Profesor profesorEdicion = obtenerProfesor();
+        Profesor profesorEdicion = obtenerProfesores();
         profesorEdicion.setIdProfesor(this.profesorEdicion.getIdProfesor());
         HashMap<String,Object> resultado = ProfesorImplementacion.editarProfesor(profesorEdicion);
 
@@ -200,6 +201,8 @@ public class FXMLFormularioProfesorController implements Initializable {
             cerrarVentana();
         } else {
             Utilidades.mostrarAlertaSimple("Error al editar", resultado.get("error").toString(), Alert.AlertType.ERROR);
+        }
+    }
     
     private void cerrarVentana() {
         ((Stage) tfNombre.getScene().getWindow()).close();
