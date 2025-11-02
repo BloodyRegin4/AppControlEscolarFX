@@ -188,6 +188,18 @@ public class FXMLFormularioProfesorController implements Initializable {
         
         return profesor;
     }
+
+    private void editarProfesor() {
+        Profesor profesorEdicion = obtenerProfesor();
+        profesorEdicion.setIdProfesor(this.profesorEdicion.getIdProfesor());
+        HashMap<String,Object> resultado = ProfesorImplementacion.editarProfesor(profesorEdicion);
+
+        if(!(boolean) resultado.get("error")) {
+            Utilidades.mostrarAlertaSimple("Profesor registrado correctamente", resultado.get("mensaje").toString(), Alert.AlertType.INFORMATION);
+            observador.notificarOperacionExitosa("editar", profesorEdicion.getNombre());
+            cerrarVentana();
+        } else {
+            Utilidades.mostrarAlertaSimple("Error al editar", resultado.get("error").toString(), Alert.AlertType.ERROR);
     
     private void cerrarVentana() {
         ((Stage) tfNombre.getScene().getWindow()).close();
