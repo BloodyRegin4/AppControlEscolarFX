@@ -60,7 +60,11 @@ public class FXMLFormularioProfesorController implements Initializable {
     @FXML
     private void clicBtnGuardar(ActionEvent event) {
         if(sonCamposValidos()) {
-            registrarProfesor();
+            if(profesorEdicion == null) {
+                registrarProfesor();
+            } else {
+                editarProfesor();
+            }
         }
     }
 
