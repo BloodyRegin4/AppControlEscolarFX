@@ -54,7 +54,31 @@ public class FXMLFormularioProfesorController implements Initializable {
     public void inicializarDatos(IObservador observador, Profesor profesor) {
         this.observador = observador;
         this.profesorEdicion = profesor;
-        //TODO Cargar datos a la pantalla edicion
+
+        if(profesor != null) {
+            tfNombre.setText(profesor.getNombre());
+            tfApellidoPaterno.setText(profesor.getApellidoPaterno());
+            tfApellidoMaterno.setText(profesor.getApellidoMaterno());
+            tfPassword.setText(profesor.getPassword());
+            tfNumPersonal.setText(profesor.getNoPersonal());
+            tfNumPersonal.setEditable(false);
+            ftNumPersonal.setDisable(true);
+            dpFechaNacimiento.setValue(LocalDate.parse(profesor.getFechaNacimiento());
+            dpFechaContratacion.setValue(LocalDate.parse(profesor.getFechaContratacion());
+
+            int posicion = obtenerRolSeleccionado(profesor.getIdRol());
+            cbRol.getSelectionModel().select(posicion);
+        }
+    }
+
+    private int obtenerRolSeleccionado(int idRol) {
+        for(int i = 0; i < roles.size(); i++) {
+            if(roles.get(i).getIdRol() == idRol) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     @FXML
