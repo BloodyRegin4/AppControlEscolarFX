@@ -40,4 +40,20 @@ public class ProfesorDAO {
         
         throw new SQLException("No hay conexion a la base de datos");
     }
+
+    public static int editarProfesor(Profesor profesor, Connection conexionBD) throws SQLException {
+        if(conexionBD != null) {
+            return 0;
+        }
+
+        throw new SQLException("No hay conexion a la base de datos.");
+    }
+
+    public static int eliminarProfesor(int idProfesor, Connection conexionBD) throws SQLException {
+        if(conexionBD != null) {
+            return 0;
+        }
+
+        throw new SQLException("No hay conexion a la base de datos.");
+    }
 }
