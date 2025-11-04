@@ -91,6 +91,17 @@ public class FXMLAdministrarProfesorController implements Initializable, IObserv
 
     @FXML
     private void clicButtonEliminar(ActionEvent event) {
+        Profesor profesor = tableViewProfesores.getSelectionModel().getSelectedItem();
+        
+        if(profesor != null) {
+            boolean confirmarEliminacion = Utilidades.mostrarAlertaConfirmacion("Eliminar profesor(a)", "Estas seguro de eliminar la informacion del profesor(a) " + profesor.getNombre() + "?\nAl eliminar un profesor(a) la informacion no puede ser recuperada.");
+            
+            if(confirmarEliminacion) {
+                eliminarProfesor(profesor.getIdProfesor());
+            }
+        } else {
+            Utilidades.mostrarAlertaSimple("Selecciona un profesor(a).", "Para eliminar la informacion de un profesor(a), debes seleccionar el registro de la tabla.", Alert.AlertType.WARNING);
+        }
     }
     
     private void irFormulario(Profesor profesor) {
@@ -107,6 +118,17 @@ public class FXMLAdministrarProfesorController implements Initializable, IObserv
             escenario.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    
+    private void eliminarProfesor(int idProfesor) {
+        HashMap<String,Object> respuesta = ProfesorImplementacion.eliminarProfesor(idProfesor);
+        
+        if(!(boolean) respuesta.get("error")) {
+            Utilidades.mostrarAlertaSimple("Registro eliminado", "La informacion del profesor(a) ha sido eliminada correctamente.", Alert.AlertType.INFORMATION);
+            cargarInformacion();
+        } else {
+            Utilidades.mostrarAlertaSimple("Error al eliminar", respuesta.get("mensaje").toString(), Alert.AlertType.ERROR);
         }
     }
     

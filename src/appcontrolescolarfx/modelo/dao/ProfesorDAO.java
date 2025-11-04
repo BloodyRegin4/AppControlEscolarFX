@@ -62,7 +62,10 @@ public class ProfesorDAO {
 
     public static int eliminarProfesor(int idProfesor, Connection conexionBaseDatos) throws SQLException {
         if(conexionBaseDatos != null) {
-            return 0;
+            String eliminacion = "DELETE FROM profesor WHERE idProfesor = ?";
+            PreparedStatement sentencia = conexionBaseDatos.prepareStatement(eliminacion);
+            sentencia.setInt(1, idProfesor);
+            return sentencia.executeUpdate();
         }
 
         throw new SQLException("No hay conexión a la base de datos.");

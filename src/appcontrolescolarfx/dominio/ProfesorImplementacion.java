@@ -87,4 +87,27 @@ public class ProfesorImplementacion {
 
         return respuesta;
     }
+    
+    public static HashMap<String,Object> eliminarProfesor(int idProfesor) {
+        HashMap<String,Object> respuesta = new LinkedHashMap<>();
+        
+        try {
+            int filasAfectadas = ProfesorDAO.eliminarProfesor(idProfesor, ConexionBaseDatos.abrirConexionBD());
+            
+            if(filasAfectadas > 0) {
+                respuesta.put("error", false);
+                respuesta.put("mensaje", "El registro del profesor(a) fue eliminado correctamente.");
+            } else {
+                respuesta.put("error", true);
+                respuesta.put("mensaje", "Lo sentimos :( no se pudo eliminar la información del profesor, por favor inténtelo mas tarde.");
+            }
+            
+            ConexionBaseDatos.cerrarConexionBD();
+        } catch(SQLException e) {
+            respuesta.put("error", true);
+            respuesta.put("mensaje", e.getMessage());
+        }
+        
+        return respuesta;
+    }
 }
