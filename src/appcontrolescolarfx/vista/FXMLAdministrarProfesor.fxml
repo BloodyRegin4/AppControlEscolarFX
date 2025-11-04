@@ -15,7 +15,7 @@
       <Button layoutX="808.0" layoutY="80.0" mnemonicParsing="false" onAction="#clicButtonEliminar" text="Eliminar" />
       <TableView fx:id="tableViewProfesores" layoutX="31.0" layoutY="130.0" prefHeight="400.0" prefWidth="850.0">
         <columns>
-          <TableColumn fx:id="columnNumPersonal" prefWidth="120.0" text="Numero de personal" />
+          <TableColumn fx:id="columnNumeroPersonal" prefWidth="120.0" text="Numero de personal" />
           <TableColumn fx:id="columnApellidoPaterno" prefWidth="127.0" text="Apellido paterno" />
             <TableColumn fx:id="columnApellidoMaterno" prefWidth="135.0" text="Apellido materno" />
             <TableColumn fx:id="columnNombre" prefWidth="114.0" text="Nombre" />

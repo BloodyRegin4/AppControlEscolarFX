@@ -22,7 +22,7 @@ public class ProfesorImplementacion {
                 profesor.setNombre(resultado.getString("nombre"));
                 profesor.setApellidoPaterno(resultado.getString("apellidoPaterno"));
                 profesor.setApellidoMaterno(resultado.getString("apellidoMaterno"));
-                profesor.setNumeroPersonal(resultado.getString("noPersonal"));
+                profesor.setNumeroPersonal(resultado.getString("numeroPersonal"));
                 profesor.setFechaNacimiento(resultado.getString("fechaNacimiento"));
                 profesor.setFechaContratacion(resultado.getString("fechaContratacion"));
                 profesor.setIdRol(resultado.getInt("idRol"));

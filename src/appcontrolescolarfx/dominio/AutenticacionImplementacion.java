@@ -20,7 +20,7 @@ public class AutenticacionImplementacion {
                 profesorSesion.setNombre(resultado.getString("nombre"));
                 profesorSesion.setApellidoPaterno(resultado.getString("apellidoPaterno"));
                 profesorSesion.setApellidoMaterno(resultado.getString("apellidoMaterno"));
-                profesorSesion.setNumeroPersonal(resultado.getString("noPersonal"));
+                profesorSesion.setNumeroPersonal(resultado.getString("numeroPersonal"));
                 profesorSesion.setIdRol(resultado.getInt("idRol"));
                 profesorSesion.setRol(resultado.getString("rol"));
                 respuesta.put("error", false);

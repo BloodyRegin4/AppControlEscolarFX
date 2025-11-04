@@ -9,15 +9,15 @@
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="appcontrolescolarfx.controlador.FXMLPrincipalController">
    <children>
       <Label layoutX="40.0" layoutY="68.0" text="Bienvenido(a)" />
-      <Label fx:id="lbNombre" layoutX="40.0" layoutY="98.0" text="(Nombre)" />
-      <Label fx:id="lbNumPersonal" layoutX="40.0" layoutY="130.0" text="(NumPersonal)" />
-      <Button layoutX="330.0" layoutY="104.0" mnemonicParsing="false" onAction="#clicIrAdminProfesores" text="Administración de profesores" />
+      <Label fx:id="labelNombre" layoutX="40.0" layoutY="98.0" text="(Nombre)" />
+      <Label fx:id="labelNumeroPersonal" layoutX="40.0" layoutY="130.0" text="(NumeroPersonal)" />
+      <Button layoutX="330.0" layoutY="104.0" mnemonicParsing="false" onAction="#clicIrAdministrarProfesor" text="Administración de profesores" />
       <Button layoutX="330.0" layoutY="158.0" mnemonicParsing="false" text="Administración de alumnos" />
       <Button layoutX="330.0" layoutY="207.0" mnemonicParsing="false" text="Administración de carreras" />
-      <Button layoutX="330.0" layoutY="257.0" mnemonicParsing="false" onAction="#clicCerrarSesion" text="Cerrar sesión" />
+      <Button layoutX="330.0" layoutY="257.0" mnemonicParsing="false" onAction="#clicButtonCerrarSesion" text="Cerrar sesión" />
       <Pane layoutX="-1.0" prefHeight="50.0" prefWidth="603.0" style="-fx-background-color: #43B6E9;">
          <children>
-            <Label fx:id="lbRol" layoutX="444.0" layoutY="15.0" text="(Rol)" />
+            <Label fx:id="labelRol" layoutX="444.0" layoutY="15.0" text="(Rol)" />
          </children>
       </Pane>
    </children>

@@ -23,7 +23,7 @@
          </font>
       </Label>
       <Label layoutX="101.0" layoutY="76.0" prefHeight="35.0" prefWidth="433.0" text="Para iniciar sesión, ingresa tu numero de personal y contraseña:" textAlignment="CENTER" wrapText="true" />
-      <TextField fx:id="textFieldNumeroDePersonal" layoutX="184.0" layoutY="161.0" prefHeight="25.0" prefWidth="268.0" promptText="jperez001" />
+      <TextField fx:id="textFieldNumeroPersonal" layoutX="184.0" layoutY="161.0" prefHeight="25.0" prefWidth="268.0" promptText="jperez001" />
       <Label layoutX="254.0" layoutY="141.0" text="Número de personal">
          <font>
             <Font size="14.0" />

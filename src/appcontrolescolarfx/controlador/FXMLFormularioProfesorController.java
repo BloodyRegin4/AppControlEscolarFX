@@ -32,7 +32,7 @@ public class FXMLFormularioProfesorController implements Initializable {
     @FXML
     private TextField textFieldApellidoMaterno;
     @FXML
-    private TextField textFielContrasenia; //pfPassword
+    private TextField textFieldContrasenia; //pfPassword
     
     @FXML
     private DatePicker datePickerFechaNacimiento;
@@ -59,7 +59,7 @@ public class FXMLFormularioProfesorController implements Initializable {
             textFieldNombre.setText(profesor.getNombre());
             textFieldApellidoPaterno.setText(profesor.getApellidoPaterno());
             textFieldApellidoMaterno.setText(profesor.getApellidoMaterno());
-            textFielContrasenia.setText(profesor.getContrasenia());
+            textFieldContrasenia.setText(profesor.getContrasenia());
             textFieldNumeroPersonal.setText(profesor.getNumeroPersonal());
             textFieldNumeroPersonal.setEditable(false);
             textFieldNumeroPersonal.setDisable(true);
@@ -133,7 +133,7 @@ public class FXMLFormularioProfesorController implements Initializable {
             mensajeError += "- Numero de personal requerido. \n";
         }
         
-        if(textFielContrasenia.getText().isEmpty()) {
+        if(textFieldContrasenia.getText().isEmpty()) {
             valido = false;
             mensajeError += "- Contraseña requerido. \n";
         }
@@ -180,7 +180,7 @@ public class FXMLFormularioProfesorController implements Initializable {
         profesor.setApellidoPaterno(textFieldApellidoPaterno.getText());
         profesor.setApellidoMaterno(textFieldApellidoMaterno.getText());
         profesor.setNumeroPersonal(textFieldNumeroPersonal.getText());
-        profesor.setContrasenia(textFielContrasenia.getText());
+        profesor.setContrasenia(textFieldContrasenia.getText());
         profesor.setFechaNacimiento(datePickerFechaNacimiento.getValue().toString());
         profesor.setFechaContratacion(datePickerFechaContratacion.getValue().toString());
         Rol rolSeleccionado = comboBoxRol.getSelectionModel().getSelectedItem();

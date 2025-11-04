@@ -43,7 +43,18 @@ public class ProfesorDAO {
 
     public static int editarProfesor(Profesor profesor, Connection conexionBaseDatos) throws SQLException {
         if(conexionBaseDatos != null) {
-            return 0;
+            String consulta = "UPDATE profesor SET nombre = ?, apellidoPaterno = ?, apellidoMaterno = ?," + 
+                    "contrasenia = ?, fechaNacimiento = ?, fechaContratacion = ? " +
+                    "WHERE numeroPersonal = ?";
+            PreparedStatement sentencia = conexionBaseDatos.prepareStatement(consulta);
+            sentencia.setString(1, profesor.getNombre());
+            sentencia.setString(2, profesor.getApellidoPaterno());
+            sentencia.setString(3, profesor.getApellidoMaterno());
+            sentencia.setString(4, profesor.getContrasenia());
+            sentencia.setString(5, profesor.getFechaNacimiento());
+            sentencia.setString(6, profesor.getFechaContratacion());
+            sentencia.setString(7, profesor.getNumeroPersonal());
+            return sentencia.executeUpdate();
         }
 
         throw new SQLException("No hay conexión a la base de datos.");

@@ -40,7 +40,7 @@ public class FXMLPrincipalController implements Initializable {
     @FXML
     private void clicIrAdministrarProfesor(ActionEvent event) {
         try {
-            Parent vista = FXMLLoader.load(AppControlEscolarFX.class.getResource("vista/FXMLAdminProfesor.fxml"));
+            Parent vista = FXMLLoader.load(AppControlEscolarFX.class.getResource("vista/FXMLAdministrarProfesor.fxml"));
             Scene escenaAdministrarProfesor = new Scene(vista);
             Stage escenarioAdministrarProfesor = new Stage();
             escenarioAdministrarProfesor.setScene(escenaAdministrarProfesor);
@@ -53,7 +53,7 @@ public class FXMLPrincipalController implements Initializable {
     }
 
     @FXML
-    private void clicCerrarSesion(ActionEvent event) {
+    private void clicButtonCerrarSesion(ActionEvent event) {
         try {
             Parent vista = FXMLLoader.load(AppControlEscolarFX.class.getResource("vista/FXMLInicioSesion.fxml"));
             Scene escena = new Scene(vista);

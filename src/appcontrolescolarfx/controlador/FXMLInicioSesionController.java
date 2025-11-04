@@ -14,7 +14,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import utilidad.Utilidades;
@@ -23,12 +25,15 @@ public class FXMLInicioSesionController implements Initializable {
     @FXML
     private TextField textFieldNumeroPersonal;
     @FXML
-    private TextField passwordFieldContrasenia;
+    private PasswordField passwordFieldContrasenia;
     
     @FXML
     private Label labelErrorNumeroPersonal;
     @FXML
     private Label labelErrorContrasenia;
+    
+    @FXML
+    private Button buttonIngresar;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {    }
@@ -43,7 +48,7 @@ public class FXMLInicioSesionController implements Initializable {
         }
     }
     
-    private boolean sonDatosValidos(String numeroPersonal, String password) {
+    private boolean sonDatosValidos(String numeroPersonal, String contrasenia) {
         boolean correcto = true;
         labelErrorNumeroPersonal.setText("");
         labelErrorContrasenia.setText("");
@@ -53,7 +58,7 @@ public class FXMLInicioSesionController implements Initializable {
             labelErrorNumeroPersonal.setText("Numero de personal obligatorio");
         }
         
-        if(password == null || password.isEmpty()) {
+        if(contrasenia == null || contrasenia.isEmpty()) {
             correcto = false;
             labelErrorContrasenia.setText("Contraseña obligatoria");
         }
