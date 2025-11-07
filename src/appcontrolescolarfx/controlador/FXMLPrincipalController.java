@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import utilidad.Utilidades;
 
 public class FXMLPrincipalController implements Initializable {
 
@@ -44,9 +45,25 @@ public class FXMLPrincipalController implements Initializable {
             Scene escenaAdministrarProfesor = new Scene(vista);
             Stage escenarioAdministrarProfesor = new Stage();
             escenarioAdministrarProfesor.setScene(escenaAdministrarProfesor);
-            escenarioAdministrarProfesor.setTitle("Administración profesores");
+            escenarioAdministrarProfesor.setTitle("Administrar profesores");
             escenarioAdministrarProfesor.initModality(Modality.APPLICATION_MODAL);
             escenarioAdministrarProfesor.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @FXML
+    private void clicIrAdministrarAlumno(ActionEvent event) {
+        try {
+            FXMLLoader cargador = Utilidades.obtenerVistaMemoria("vista/FXMLAdministrarAlumno.fxml");
+            Parent vista = cargador.load();
+            Scene escenaAdministrarAlumno = new Scene(vista);
+            Stage escenarioAdministrarAlumno = new Stage();
+            escenarioAdministrarAlumno.setScene(escenaAdministrarAlumno);
+            escenarioAdministrarAlumno.setTitle("Administrar alumnos");
+            escenarioAdministrarAlumno.initModality(Modality.APPLICATION_MODAL);
+            escenarioAdministrarAlumno.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
