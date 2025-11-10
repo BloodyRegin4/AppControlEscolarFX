@@ -63,6 +63,8 @@ public class FXMLFormularioAlumnoController implements Initializable {
     private IObservador observador;
     private Alumno alumnoEdicion;
     
+    private static final long FOTO_PESO_MAXIMO = 1024 * 1024;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cargarFacultades();
@@ -133,10 +135,19 @@ public class FXMLFormularioAlumnoController implements Initializable {
         dialogoSeleccion.setTitle("Selecciona una foto");
         FileChooser.ExtensionFilter filtroImagen = new FileChooser.ExtensionFilter("Archivos JPG (.jpg)", "*.jpg");
         dialogoSeleccion.getExtensionFilters().add(filtroImagen);
-        fotoSeleccionada = dialogoSeleccion.showOpenDialog(textFieldNombre.getScene().getWindow());
+        File archivoTemporal = dialogoSeleccion.showOpenDialog(textFieldNombre.getScene().getWindow());
         
-        if(fotoSeleccionada != null) {
-            mostrarFoto(fotoSeleccionada);
+        if(archivoTemporal != null) {
+            long tamanioArchivo = archivoTemporal.length();
+            
+            if (tamanioArchivo > FOTO_PESO_MAXIMO) {
+                Utilidades.mostrarAlertaSimple("Error de archivo", "El archivo es demasiado grande. El peso máximo permitido es de 1MB.", Alert.AlertType.ERROR);
+                fotoSeleccionada = null; 
+                imageViewAlumno.setImage(null);
+            } else {
+                fotoSeleccionada = archivoTemporal;
+                mostrarFoto(fotoSeleccionada);
+            }
         }
     }
     
