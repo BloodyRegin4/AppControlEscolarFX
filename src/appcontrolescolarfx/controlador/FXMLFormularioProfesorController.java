@@ -61,8 +61,6 @@ public class FXMLFormularioProfesorController implements Initializable {
             textFieldApellidoMaterno.setText(profesor.getApellidoMaterno());
             textFieldContrasenia.setText(profesor.getContrasenia());
             textFieldNumeroPersonal.setText(profesor.getNumeroPersonal());
-            textFieldNumeroPersonal.setEditable(false);
-            textFieldNumeroPersonal.setDisable(true);
             datePickerFechaNacimiento.setValue(LocalDate.parse(profesor.getFechaNacimiento()));
             datePickerFechaContratacion.setValue(LocalDate.parse(profesor.getFechaContratacion()));
             int posicion = obtenerRolSeleccionado(profesor.getIdRol());
@@ -113,11 +111,6 @@ public class FXMLFormularioProfesorController implements Initializable {
         boolean valido = true;
         String mensajeError = "Se encontraron los siguientes errores:\n";
         
-        if(textFieldNombre.getText().isEmpty()) {
-            valido = false;
-            mensajeError += "- Nombre del profesor requerido. \n";
-        }
-        
         if(textFieldApellidoPaterno.getText().isEmpty()) {
             valido = false;
             mensajeError += "- Apellido paterno del profesor requerido. \n";
@@ -133,9 +126,11 @@ public class FXMLFormularioProfesorController implements Initializable {
             mensajeError += "- Numero de personal requerido. \n";
         }
         
-        if(textFieldContrasenia.getText().isEmpty()) {
-            valido = false;
-            mensajeError += "- Contraseña requerido. \n";
+        if (profesorEdicion == null) {
+            if (textFieldContrasenia.getText().isEmpty()) {
+                valido = false;
+                mensajeError += "- Contraseña requerida.\n";
+            }
         }
         
         if(datePickerFechaNacimiento.getValue() == null) {
@@ -180,11 +175,24 @@ public class FXMLFormularioProfesorController implements Initializable {
         profesor.setApellidoPaterno(textFieldApellidoPaterno.getText());
         profesor.setApellidoMaterno(textFieldApellidoMaterno.getText());
         profesor.setNumeroPersonal(textFieldNumeroPersonal.getText());
-        profesor.setContrasenia(textFieldContrasenia.getText());
         profesor.setFechaNacimiento(datePickerFechaNacimiento.getValue().toString());
         profesor.setFechaContratacion(datePickerFechaContratacion.getValue().toString());
+        
+        String contraseniaNueva = textFieldContrasenia.getText();
+        if(profesorEdicion != null && (contraseniaNueva == null || contraseniaNueva.isEmpty())) {
+            profesor.setContrasenia(profesorEdicion.getContrasenia());
+        } else {
+            if(contraseniaNueva == null) {
+                profesor.setContrasenia(""); 
+            } else {
+                profesor.setContrasenia(contraseniaNueva);
+            }
+        }
+        
         Rol rolSeleccionado = comboBoxRol.getSelectionModel().getSelectedItem();
-        profesor.setIdRol(rolSeleccionado.getIdRol());
+        if (rolSeleccionado != null) {
+            profesor.setIdRol(rolSeleccionado.getIdRol());
+        }
         
         return profesor;
     }
@@ -199,7 +207,7 @@ public class FXMLFormularioProfesorController implements Initializable {
             observador.notificarOperacionExitosa("editar", profesorEdicion.getNombre());
             cerrarVentana();
         } else {
-            Utilidades.mostrarAlertaSimple("Error al editar", resultado.get("error").toString(), Alert.AlertType.ERROR);
+            Utilidades.mostrarAlertaSimple("Error al editar", resultado.get("mensaje").toString(), Alert.AlertType.ERROR);
         }
     }
     

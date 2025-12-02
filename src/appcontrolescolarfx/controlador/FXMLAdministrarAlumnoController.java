@@ -151,6 +151,7 @@ public class FXMLAdministrarAlumnoController implements Initializable, IObservad
     public void notificarOperacionExitosa(String tipoOperacion, String nombre) {
         System.out.println("Operación: " + tipoOperacion);
         System.out.println("Nombre: " + nombre);
+        configurarTabla();
         cargarInformacion();
     }
     

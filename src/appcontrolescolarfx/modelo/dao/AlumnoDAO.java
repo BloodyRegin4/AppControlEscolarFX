@@ -22,6 +22,49 @@ public class AlumnoDAO {
         throw new SQLException("No hay conexión a la base de datos.");
     }
     
+    public static Alumno obtenerAlumnoPorId(Connection conexionBaseDatos, int idAlumno) throws SQLException {
+        Alumno alumno = null;
+        
+        if(conexionBaseDatos != null) {
+            String consulta = "SELECT a.*, c.idFacultad " +
+                    "FROM alumno a " +
+                    "INNER JOIN carrera c ON a.idCarrera = c.idCarrera " +
+                    "WHERE a.idAlumno = ?";
+                          
+            PreparedStatement sentencia = conexionBaseDatos.prepareStatement(consulta);
+            sentencia.setInt(1, idAlumno);
+            ResultSet resultSet = sentencia.executeQuery();
+        
+            if(resultSet.next()) {
+                alumno = new Alumno();
+                alumno.setIdAlumno(resultSet.getInt("idAlumno"));
+                alumno.setNombre(resultSet.getString("nombre"));
+                alumno.setApellidoPaterno(resultSet.getString("apellidoPaterno"));
+                alumno.setApellidoMaterno(resultSet.getString("apellidoMaterno"));
+                alumno.setMatricula(resultSet.getString("matricula"));
+                alumno.setCorreo(resultSet.getString("correo"));
+                alumno.setFechaNacimiento(resultSet.getString("fechaNacimiento"));
+                alumno.setFoto(resultSet.getBytes("foto"));
+                alumno.setIdCarrera(resultSet.getInt("idCarrera"));
+                alumno.setIdFacultad(resultSet.getInt("idFacultad"));
+            }
+        
+            return alumno;
+        }
+    
+        throw new SQLException("No hay conexión a la base de datos.");
+    }
+    
+    public static ResultSet obtenerFoto(Connection conexionBaseDatos, int idAlumno) throws SQLException {
+        if(conexionBaseDatos != null) {
+            String consulta = "SELECT foto FROM alumno WHERE idAlumno = ?;";
+            PreparedStatement sentencia = conexionBaseDatos.prepareStatement(consulta);
+            return sentencia.executeQuery();
+        }
+        
+        throw new SQLException("No hay conexión a la base de datos.");
+    }
+    
     public static int registrarAlumno(Alumno alumno, Connection conexionBaseDatos) throws SQLException {
         if(conexionBaseDatos != null) {
             String insercion = "INSERT INTO alumno (nombre, apellidoPaterno, apellidoMaterno, " +

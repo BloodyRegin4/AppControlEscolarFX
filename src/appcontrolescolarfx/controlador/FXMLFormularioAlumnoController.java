@@ -71,7 +71,6 @@ public class FXMLFormularioAlumnoController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         configurarListenerFacultad();
         cargarFacultades();
-        
     }
 
     @FXML
@@ -207,12 +206,12 @@ public class FXMLFormularioAlumnoController implements Initializable {
             mensajeError += "- Fecha de nacimiento del alumno requerida. \n";
         }
         
-        if(comboBoxFacultad.getSelectionModel().isEmpty()) {
+        if(comboBoxFacultad.getSelectionModel().getSelectedItem() == null) {
             valido = false;
             mensajeError += "- Facultad del alumno requerida. \n";
         }
         
-        if(comboBoxCarrera.getSelectionModel().isEmpty()) {
+        if(comboBoxCarrera.getSelectionModel().getSelectedItem() == null) {
             valido = false;
             mensajeError += "- Carrera del alumno requerida. \n";
         }
@@ -226,7 +225,7 @@ public class FXMLFormularioAlumnoController implements Initializable {
     
     private Alumno obtenerAlumnos() throws IOException {
         Alumno alumno = new Alumno();
-        
+
         alumno.setMatricula(textFieldMatricula.getText());
         alumno.setNombre(textFieldNombre.getText());
         alumno.setApellidoPaterno(textFieldApellidoPaterno.getText());
@@ -235,10 +234,15 @@ public class FXMLFormularioAlumnoController implements Initializable {
         alumno.setFechaNacimiento(datePickerFechaNacimiento.getValue().toString());
         Carrera carreraSeleccionada = comboBoxCarrera.getSelectionModel().getSelectedItem();
         alumno.setIdCarrera(carreraSeleccionada.getIdCarrera());
+    
+        if (fotoSeleccionada != null) {
+            byte[] fotoBytes = Files.readAllBytes(fotoSeleccionada.toPath());
+            alumno.setFoto(fotoBytes);
+        } else if (alumnoEdicion != null) {
+            alumno.setFoto(alumnoEdicion.getFoto());
+        }
         
-        byte[] fotoBytes = Files.readAllBytes(fotoSeleccionada.toPath());
-        alumno.setFoto(fotoBytes);
-        return alumno;
+        return alumno;  
     }
     
     private void registrarAlumno() {
@@ -271,31 +275,41 @@ public class FXMLFormularioAlumnoController implements Initializable {
         }
     }
     
-    public void inicializarDatos(IObservador observador, Alumno alumno) {
+    public void inicializarDatos(IObservador observador, Alumno alumnoDeTabla) {
         this.observador = observador;
-        this.alumnoEdicion = alumno;
-
-        if(alumnoEdicion != null) {
-            textFieldNombre.setText(alumnoEdicion.getNombre());
-            textFieldApellidoPaterno.setText(alumnoEdicion.getApellidoPaterno());
-            textFieldApellidoMaterno.setText(alumnoEdicion.getApellidoMaterno());
-            textFieldMatricula.setText(alumnoEdicion.getMatricula());
-            textFieldCorreo.setText(alumnoEdicion.getCorreo());
-            datePickerFechaNacimiento.setValue(LocalDate.parse(alumnoEdicion.getFechaNacimiento()));
-            int posicionFacultad = obtenerPosicionFacultad(alumnoEdicion.getIdFacultad());
-            comboBoxFacultad.getSelectionModel().select(posicionFacultad);
-            cargarCarrerasPorFacultad(alumnoEdicion.getIdFacultad());
-            int posicionCarrera = obtenerPosicionCarrera(alumnoEdicion.getIdCarrera());
-            comboBoxCarrera.getSelectionModel().select(posicionCarrera);
+    
+        if (alumnoDeTabla != null) {
+            HashMap<String, Object> respuesta = AlumnoImplementacion.obtenerAlumnoPorId(alumnoDeTabla.getIdAlumno());
+        
+            if (!(boolean) respuesta.get("error")) {
+                this.alumnoEdicion = (Alumno) respuesta.get("alumno");
+                textFieldNombre.setText(this.alumnoEdicion.getNombre());
+                textFieldApellidoPaterno.setText(this.alumnoEdicion.getApellidoPaterno());
+                textFieldApellidoMaterno.setText(this.alumnoEdicion.getApellidoMaterno());
+                textFieldMatricula.setText(this.alumnoEdicion.getMatricula());
+                textFieldCorreo.setText(this.alumnoEdicion.getCorreo());
             
-            if (alumnoEdicion.getFoto() != null) {
-                try {
-                    Image imagen = new Image(new ByteArrayInputStream(alumnoEdicion.getFoto()));
-                    imageViewAlumno.setImage(imagen);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Utilidades.mostrarAlertaSimple("Error al cargar imagen", "No se pudo cargar la foto del alumno.", Alert.AlertType.WARNING);
+                if(this.alumnoEdicion.getFechaNacimiento() != null) {
+                    datePickerFechaNacimiento.setValue(LocalDate.parse(this.alumnoEdicion.getFechaNacimiento()));
                 }
+            
+                int posicionFacultad = obtenerPosicionFacultad(this.alumnoEdicion.getIdFacultad());
+                comboBoxFacultad.getSelectionModel().select(posicionFacultad);
+                cargarCarrerasPorFacultad(this.alumnoEdicion.getIdFacultad());
+                int posicionCarrera = obtenerPosicionCarrera(this.alumnoEdicion.getIdCarrera());
+                comboBoxCarrera.getSelectionModel().select(posicionCarrera);
+            
+                if (this.alumnoEdicion.getFoto() != null && this.alumnoEdicion.getFoto().length > 0) {
+                    try {
+                        Image imagen = new Image(new ByteArrayInputStream(this.alumnoEdicion.getFoto()));
+                        imageViewAlumno.setImage(imagen);
+                    } catch (Exception e) {
+                        System.out.println("Error al cargar la imagen en la vista: " + e.getMessage());
+                    }
+                }
+            } else {
+                Utilidades.mostrarAlertaSimple("Error de carga", (String) respuesta.get("mensaje"), Alert.AlertType.ERROR);
+                cerrarVentana();
             }
         }
     }

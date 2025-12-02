@@ -43,17 +43,33 @@ public class ProfesorDAO {
 
     public static int editarProfesor(Profesor profesor, Connection conexionBaseDatos) throws SQLException {
         if(conexionBaseDatos != null) {
-            String consulta = "UPDATE profesor SET nombre = ?, apellidoPaterno = ?, apellidoMaterno = ?," + 
-                    "contrasenia = ?, fechaNacimiento = ?, fechaContratacion = ? " +
-                    "WHERE numeroPersonal = ?";
+            boolean actualizarContrasenia = profesor.getContrasenia() != null && !profesor.getContrasenia().isEmpty();
+            String consulta;
+            if(actualizarContrasenia) {
+                consulta = "UPDATE profesor SET idRol = ?, nombre = ?, apellidoPaterno = ?, apellidoMaterno = ?, " + 
+                    "numeroPersonal = ?, contrasenia = ?, fechaNacimiento = ?, fechaContratacion = ? " +
+                    "WHERE idProfesor = ?";
+            } else {
+                consulta = "UPDATE profesor SET idRol = ?, nombre = ?, apellidoPaterno = ?, apellidoMaterno = ?, " + 
+                    "numeroPersonal = ?, fechaNacimiento = ?, fechaContratacion = ? " +
+                    "WHERE idProfesor = ?";
+            }
+            
             PreparedStatement sentencia = conexionBaseDatos.prepareStatement(consulta);
-            sentencia.setString(1, profesor.getNombre());
-            sentencia.setString(2, profesor.getApellidoPaterno());
-            sentencia.setString(3, profesor.getApellidoMaterno());
-            sentencia.setString(4, profesor.getContrasenia());
-            sentencia.setString(5, profesor.getFechaNacimiento());
-            sentencia.setString(6, profesor.getFechaContratacion());
-            sentencia.setString(7, profesor.getNumeroPersonal());
+            sentencia.setInt(1, profesor.getIdRol());
+            sentencia.setString(2, profesor.getNombre());
+            sentencia.setString(3, profesor.getApellidoPaterno());
+            sentencia.setString(4, profesor.getApellidoMaterno());
+            sentencia.setString(5, profesor.getNumeroPersonal());
+            sentencia.setString(6, profesor.getFechaNacimiento());
+            sentencia.setString(7, profesor.getFechaContratacion());
+            
+            if(actualizarContrasenia) {
+                sentencia.setString(8, profesor.getContrasenia());
+                sentencia.setInt(9, profesor.getIdProfesor());
+            } else {
+                sentencia.setInt(8, profesor.getIdProfesor());
+            }
             return sentencia.executeUpdate();
         }
 
